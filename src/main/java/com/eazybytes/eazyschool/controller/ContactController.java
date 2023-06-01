@@ -2,8 +2,12 @@ package com.eazybytes.eazyschool.controller;
 
 import com.eazybytes.eazyschool.model.Contact;
 import com.eazybytes.eazyschool.service.ContactService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,34 +21,26 @@ public class ContactController {
     }
 
     @GetMapping("/contact")
-    public String displayContactPage() {
+    public String displayContactPage(Model model) {
         return "contact.html";
     }
 
-//    @PostMapping("/saveMsg")
-//    public ModelAndView saveMessage(@RequestParam String name, @RequestParam String mobileNum,
-//                                    @RequestParam String email, @RequestParam String subject,
-//                                    @RequestParam String message, Model model) {
-//
-//        System.out.println(name);
-//        System.out.println(mobileNum);
-//        System.out.println(email);
-//        System.out.println(subject);
-//        System.out.println(message);
-//        model.addAttribute("username", "Andrija Aleksic");
-//        return new ModelAndView("redirect:/contact");
-//    }
 
     @PostMapping("/saveMsg")
-    public ModelAndView saveMessage(Contact contact) {
-        if(contactService.saveMessageDetail(contact)){
-            System.out.println("ContactController.saveMessage succesfully");
+    public String saveMessage(@Valid Contact contact, Errors errors , String name) {
+        name = "Drama";
+        if (errors.hasErrors()) {
+            System.out.println("ContactController.saveMessage" + errors.toString());
+            return "contact.html";
         }
-        else{
-            System.out.println("ContactController.saveMessage unsuccesfully");
-        }
-
-        return new ModelAndView("redirect:/contact");
+        contactService.saveMessageDetail(contact);
+        return "redirect:/contact";
     }
+
+    @ModelAttribute("contact")
+    public Contact contactAttribute() {
+        return new Contact();
+    }
+
 
 }
