@@ -38,7 +38,7 @@ public class ContactController {
     @PostMapping("/saveMsg")
     public ModelAndView saveMessage(Contact contact) {
         if(contactService.saveMessageDetail(contact)){
-            System.out.println("ContactController.saveMessage sucesfully");
+            System.out.println("ContactController.saveMessage succesfully");
         }
         else{
             System.out.println("ContactController.saveMessage unsuccesfully");
