@@ -27,7 +27,7 @@ public class ContactController {
 
 
     @PostMapping("/saveMsg")
-    public String saveMessage(@Valid Contact contact, Errors errors , String name) {
+    public String saveMessage(@Valid Contact contact, Errors errors, String name) {
         name = "Drama";
         if (errors.hasErrors()) {
             System.out.println("ContactController.saveMessage" + errors.toString());
